@@ -91,47 +91,61 @@ layout: page
 </div>
 
 <script>
-  (function() {
-    const bgElement = document.getElementById('dynamic-background');
+(function() {
+  // 配置图片列表（必须与.bg-layer数量一致）
+  const images = [
+    "{{ '/assets/img/0000_2025-03-23_15-05-58.png' | absolute_url }}",
+    "{{ '/assets/img/0001_2025-03-23_15-05-58.png' | absolute_url }}",
+    "{{ '/assets/img/0002_2025-03-23_15-05-58.png' | absolute_url }}",
+    "{{ '/assets/img/0003_2025-03-23_15-05-58.png' | absolute_url }}",
+    "{{ '/assets/img/0004_2025-03-23_15-05-58.png' | absolute_url }}"
+  ];
 
-    // 手动定义图片路径列表（所有图片路径需要手动列出，因为 GitHub Pages 无法自动读取文件夹内容）
-    const images = [
-      "/assets/img/0000_2025-03-23_15-05-58.png",
-      "/assets/img/0001_2025-03-23_15-05-58.png",
-      "/assets/img/0002_2025-03-23_15-05-58.png",
-      "/assets/img/0003_2025-03-23_15-05-58.png",
-      "/assets/img/0004_2025-03-23_15-05-58.png"
-    ];
+  // 获取DOM元素
+  const container = document.getElementById('dynamic-background');
+  const layers = container.querySelectorAll('.bg-layer');
+  let currentIndex = 0;
 
-    // 如果没有图片，退出
-    if (images.length === 0) {
-      console.error("No images available");
-      return;
-    }
+  // 初始化背景层
+  function initBackgrounds() {
+    layers.forEach((layer, index) => {
+      if(images[index]) {
+        layer.style.backgroundImage = `url('${images[index]}')`;
+        layer.style.opacity = index === 0 ? 1 : 0;
+      } else {
+        layer.remove();
+      }
+    });
+  }
 
-    let currentIndex = 0; // 当前图片索引
+  // 切换背景
+  function switchBackground() {
+    const nextIndex = (currentIndex + 1) % images.length;
+    
+    layers[currentIndex].style.opacity = 0;
+    layers[nextIndex].style.opacity = 1;
+    
+    currentIndex = nextIndex;
+  }
 
-    // 切换背景图片的函数
-    function changeBackground() {
-      bgElement.style.opacity = 0; // 背景淡出
-      setTimeout(() => {
-        // 设置下一张图片
-        bgElement.style.backgroundImage = `url(${images[currentIndex]})`;
-        bgElement.style.opacity = 1; // 背景淡入
+  // 错误处理
+  function handleImageError(e) {
+    console.error('背景图加载失败:', e.target.src);
+    e.target.style.display = 'none';
+  }
 
-        // 更新索引，循环到头后返回第一个
-        currentIndex = (currentIndex + 1) % images.length;
-      }, 500); // 淡出与切换图片的间隔时间
-    }
+  // 初始化执行
+  initBackgrounds();
+  
+  // 启动轮播（至少2张图片时启用）
+  if(images.length > 1) {
+    setInterval(switchBackground, 5000);
+  }
 
-    // 初始化第一张图片
-    bgElement.style.backgroundImage = `url(${images[currentIndex]})`;
-
-    // 每隔5秒切换一次图片
-    setInterval(changeBackground, 5000);
-  })();
+  // 监听图片加载错误
+  container.addEventListener('error', handleImageError, true);
+})();
 </script>
-
 
 <style>
   /* 修改后的动态滤镜效果 */
