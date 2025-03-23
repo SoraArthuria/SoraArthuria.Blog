@@ -94,10 +94,13 @@ layout: page
   (function() {
     const bgElement = document.getElementById('dynamic-background');
 
-    // 定义图片列表
+    // 手动定义图片路径列表（所有图片路径需要手动列出，因为 GitHub Pages 无法自动读取文件夹内容）
     const images = [
       "/assets/img/0000_2025-03-23_15-05-58.png",
-      "/assets/img/0001_2025-03-23_15-05-58.png"
+      "/assets/img/0001_2025-03-23_15-05-58.png",
+      "/assets/img/0002_2025-03-23_15-05-58.png",
+      "/assets/img/0003_2025-03-23_15-05-58.png",
+      "/assets/img/0004_2025-03-23_15-05-58.png"
     ];
 
     // 如果没有图片，退出
@@ -123,12 +126,12 @@ layout: page
 
     // 初始化第一张图片
     bgElement.style.backgroundImage = `url(${images[currentIndex]})`;
-    currentIndex = (currentIndex + 1) % images.length;
 
     // 每隔5秒切换一次图片
     setInterval(changeBackground, 5000);
   })();
 </script>
+
 
 <style>
   /* 修改后的动态滤镜效果 */
