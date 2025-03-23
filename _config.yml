@@ -46,8 +46,8 @@ round-avatar: true
 # Uncomment the links you want to show and add your information to each one.
 social-network-links:
   email: "1025149954@qq.com"
-  rss: true  # remove this line if you don't want to show an RSS link at the bottom
-  github: https://github.com/SoraArthuria
+ # rss: true  # remove this line if you don't want to show an RSS link at the bottom
+  github: "https://github.com/SoraArthuria"
 #  medium: yourname
 #  reddit: yourname or r/yoursubreddit
 #  linkedin: daattali
